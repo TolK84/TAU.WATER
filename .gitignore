@@ -1,0 +1,46 @@
+# Секреты / окружение
+.env
+.env.*
+!.env.example
+
+# Зависимости и сборка
+node_modules/
+dist/
+build/
+.astro/
+
+# IDE / ОС / логи
+.vscode/*
+!.vscode/settings.json
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+
+# AI agent tooling — схема дев (см. D:\Git\_templates\2Ai. dev. agent-system-template\agent-system-template), не часть проекта
+.claude/
+.mcp.json
+CLAUDE.md
+PLAN.md
+TASKS.md
+sprint*.md
+LOGS.md
+tz_requirements_capture.md
+DESIGN.md
+PRODUCT.md
+design/
+.shots/
+AGENTS.md
+.codex/
+.agents/skills/
+.worktrees/
+TASK.md
+PLAN.draft.md
+TASKS.draft.md
+REMARKS.md
+RESEARCH.md
+RESULT.json
+tools/plan.mjs
+jira.config.json
+agents.config.json
+PLAN_TEMPLATE.md
