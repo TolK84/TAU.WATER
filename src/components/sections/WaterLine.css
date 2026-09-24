@@ -1,0 +1,88 @@
+/* Секция «Артезианская вода TAU» (задача 11). Значения — DESIGN.md «Задача 11», цвета/шрифты — токены src/index.css. */
+
+.water-line {
+  background: var(--color-bg);
+  padding-block: 120px;
+}
+.water-line__wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+.water-line__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+  margin-bottom: 64px;
+}
+.water-line__label { margin-bottom: 20px; }
+.water-line__lead {
+  max-width: 300px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-fg);
+  opacity: 0.4;
+}
+
+.water-line__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.water-line__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.water-line__list { list-style: none; margin: 0; padding: 0; }
+.water-line__item {
+  padding-block: 20px;
+  /* --color-line нет в src/index.css (вне Scope): fallback = значение line из DESIGN.md «Направление», Палитра */
+  border-top: 1px solid var(--color-line, rgb(255 255 255 / 0.14));
+}
+.water-line__item:first-child { border-top: none; }
+.water-line__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.water-line__vol {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-fg);
+}
+.water-line__name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-fg);
+}
+.water-line__desc {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-fg);
+  opacity: 0.6;
+}
+
+@media (max-width: 430px) {
+  .water-line { padding-block: 64px; }
+  .water-line__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .water-line__body {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
