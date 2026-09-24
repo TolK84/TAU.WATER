@@ -9,8 +9,23 @@ import { partnersText } from './Partners.i18n'
 // Токена --color-line в src/index.css нет — fallback со значением из DESIGN.md «Направление».
 const LINE = 'border-[color:var(--color-line,rgba(255,255,255,.14))]'
 
-// Радиус метки в px: sm → 8px, lg → 12px по диаметру (DESIGN.md «Задача 39»).
-const PIN_RADIUS: Record<Distributor['pin']['size'], number> = { sm: 4, lg: 6 }
+// Радиус метки в px (DESIGN.md «Задача 39», решения пользователя 2026-09-24): < 640px — диаметр 12/18
+// (r 6/9, обводка 3px), от 640px (sm) — 28/42 (r 14/21, обводка 7px). Атрибут r — мобильное значение,
+// CSS-свойство r из класса перекрывает его на sm+.
+const PIN_RADIUS: Record<Distributor['pin']['size'], number> = { sm: 6, lg: 9 }
+const PIN_R_CLASS: Record<Distributor['pin']['size'], string> = {
+  sm: '[r:6px] sm:[r:14px]',
+  lg: '[r:9px] sm:[r:21px]',
+}
+
+// Крупные метки рисуются последними (SVG — порядок отрисовки), чтобы на узкой карте соседние sm не перекрывали lg.
+const PINS = [...distributors].sort((a, b) => PIN_RADIUS[a.pin.size] - PIN_RADIUS[b.pin.size])
+
+// Карта — линии map-lines.webp (прозрачный фон) как CSS-маска, цвет линий — фон --color-lime.
+// Пропорция 1782/1060 — размер исходника map.webp/map-lines.webp: метки в % остаются на городах.
+// -webkit-mask-* сборка добавляет сама (проверено по dist/assets/*.css).
+const MAP_MASK =
+  'bg-lime [mask-image:url(/partners/map-lines.webp)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]'
 
 // 16 логотипов: logo-01.png, logo-02..16.webp (задача 38).
 const LOGOS = Array.from({ length: 16 }, (_, i) => {
@@ -36,22 +51,18 @@ export default function Partners() {
       <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-4">
         <SectionLabel text={t.label} />
 
-        <div className="relative">
-          <img
-            src="/partners/map.webp"
-            alt={t.mapAlt}
-            className="block h-auto w-full"
-          />
+        <div className="relative aspect-[1782/1060] w-full">
+          <div role="img" aria-label={t.mapAlt} data-map="lines" className={`absolute inset-0 ${MAP_MASK}`} />
           {/* Метки — SVG-круги с процентными cx/cy поверх карты: позиция из данных без inline-style. */}
-          <svg className="pointer-events-none absolute inset-0 size-full" aria-hidden="true">
-            {distributors.map((d) => (
+          <svg className="pointer-events-none absolute inset-0 size-full overflow-visible" aria-hidden="true">
+            {PINS.map((d) => (
               <circle
                 key={d.id}
                 data-pin={d.id}
                 cx={`${d.pin.left}%`}
                 cy={`${d.pin.top}%`}
                 r={PIN_RADIUS[d.pin.size]}
-                className="fill-lime stroke-[color:var(--color-bg)] stroke-2"
+                className={`fill-lime stroke-[color:var(--color-bg)] stroke-[3px] sm:stroke-[7px] ${PIN_R_CLASS[d.pin.size]}`}
               />
             ))}
           </svg>
