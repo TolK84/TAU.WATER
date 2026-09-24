@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import Caption from './Caption'
 import Cylinder from './Cylinder'
 import Stage from './Stage'
 import { SHOWCASE_PRODUCTS } from './showcase-products'
@@ -60,6 +61,7 @@ export default function Showcase() {
         <Cylinder products={SHOWCASE_PRODUCTS} selected={selected} onSelect={commitSelection} />
         <Stage selectedId={product.id} dir={dir} reducedMotion={reducedMotion} onTransitionEnd={onTransitionEnd} />
       </div>
+      <Caption product={product} />
     </section>
   )
 }

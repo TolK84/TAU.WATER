@@ -1,0 +1,35 @@
+/* Подпись товара витрины (задача 37). Значения — design/showcase/index.html:117-122.
+   Цвет объёмов — var(--c), переменную ставит Showcase.tsx (задача 36); здесь только чтение. */
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.caption h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: clamp(40px, 8vw, 88px);
+  line-height: 0.95;
+  color: var(--color-fg);
+}
+
+.caption p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  /* в эталоне у p нет своего line-height (normal); у проекта body 1.5 из Tailwind preflight */
+  line-height: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c);
+  transition: color 0.5s;
+}
