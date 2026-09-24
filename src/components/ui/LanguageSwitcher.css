@@ -1,0 +1,27 @@
+/* Переключатель языка (задача 40). Словарь .nav-link — src/components/sections/Nav.css:56-74. */
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-switcher__btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 238, 234, 0.6);
+  transition: color 0.2s;
+}
+.lang-switcher__btn:hover,
+.lang-switcher__btn--active { color: var(--color-lime); }
+
+.lang-switcher__btn:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Button from '../ui/Button'
+import LanguageSwitcher from '../ui/LanguageSwitcher'
 import './Nav.css'
 
 const ITEMS = ['Вода', 'Лимонады', 'О компании', 'Контакты']
@@ -43,6 +44,7 @@ export default function Nav() {
             </button>
           ))}
         </div>
+        <LanguageSwitcher />
         <Button variant="primary">Заказать</Button>
       </div>
     </nav>
