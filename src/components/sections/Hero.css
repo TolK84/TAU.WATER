@@ -12,17 +12,17 @@
 
 .hero__meta {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgb(240 238 234 / 0.6);
 }
 
 .hero__title {
-  margin-top: 16px;
+  margin-top: 12px;
   max-width: 640px;
   font-family: var(--font-display);
-  font-size: clamp(48px, 6vw, 72px);
+  font-size: clamp(34px, 4.2vw, 52px);
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: 0.01em;
@@ -31,26 +31,19 @@
 }
 
 .hero__lead {
-  margin-top: 24px;
+  margin-top: 16px;
   max-width: 560px;
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--color-fg);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 32px;
 }
 
 /* Breakout витрины на ширину окна — приём эталона design/showcase/index.html:38 */
 .hero__showcase {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 /* 100vw включает ширину классического скроллбара — без этого breakout даёт горизонтальную

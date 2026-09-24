@@ -1,17 +1,30 @@
 import type { MouseEvent } from 'react'
 import { useLanguage } from '../../i18n/LanguageContext'
 import { FOOTER_I18N } from './Footer.i18n'
+import { scrollToSection } from './Nav'
 
 // Названия товаров не переводятся (карточка 46, design/BRIEF.md:93).
 const PRODUCTS = ['Вода TAU', 'Лимонад', 'МО', 'Буратино']
 
-const preventNavigation = (e: MouseEvent<HTMLAnchorElement>) => e.preventDefault()
+// Цели ссылок по колонкам и порядку пунктов (DESIGN.md «Правка 2026-09-24 — рабочие ссылки и кнопки»):
+// Продукция (PRODUCTS), Компания (company.items), Сотрудничество (partnership.items).
+const TARGETS = [
+  ['water', 'lemonades', 'lemonades', 'lemonades'],
+  ['quality', 'quality', 'quality', 'quality', 'partners'],
+  ['partners', 'partners', 'partners', 'cta'],
+]
+
+// href="#" остаётся для фокуса/семантики ссылки, переход по нему отменён — URL/hash не меняется.
+const goTo = (id: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault()
+  scrollToSection(id)
+}
 
 export default function Footer() {
   const t = FOOTER_I18N[useLanguage().lang]
   const columns = [{ title: t.products, items: PRODUCTS }, t.company, t.partnership]
   return (
-    <footer className="bg-bg px-6 pt-12 pb-8 font-body text-fg lg:px-12 lg:pt-14 lg:pb-10">
+    <footer id="footer" className="scroll-mt-[72px] bg-bg px-6 pt-12 pb-8 font-body text-fg lg:px-12 lg:pt-14 lg:pb-10 lg:scroll-mt-[80px]">
       <div className="mb-14 grid grid-cols-1 gap-10 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-12">
         <div>
           <div className="mb-2 font-display text-[24px] font-bold tracking-[.12em]">
@@ -23,15 +36,15 @@ export default function Footer() {
             {t.about}
           </p>
         </div>
-        {columns.map(({ title, items }, i) => (
-          <div key={i}>
+        {columns.map(({ title, items }, col) => (
+          <div key={col}>
             <div className="mb-5 text-[11px] font-medium tracking-[.15em] text-fg/25 uppercase">{title}</div>
             <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-              {items.map((item) => (
+              {items.map((item, i) => (
                 <li key={item}>
                   <a
                     href="#"
-                    onClick={preventNavigation}
+                    onClick={goTo(TARGETS[col][i])}
                     className="text-[13px] text-fg/45 no-underline transition-colors duration-200 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime"
                   >
                     {item}
