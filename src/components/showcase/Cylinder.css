@@ -1,0 +1,109 @@
+/* Цилиндр карточек витрины (задача 34). Значения — design/showcase/index.html:34-92,124-129,
+   цвета и шрифты — токены src/index.css. */
+
+.showcase-stage {
+  position: relative;
+  height: clamp(460px, 74vh, 720px);
+  margin-top: 10px;
+}
+
+.cyl-layer {
+  position: absolute;
+  inset: 0;
+  /* на мобильном кулисы (left/right: -70px) выходят за край — без горизонтальной прокрутки */
+  overflow: hidden;
+  --curtain: max(24px, calc(50% - 600px));
+}
+
+/* Кулиса (1): жёсткая маска обрезки краёв цилиндра */
+.cyl {
+  position: absolute;
+  inset: 0;
+  perspective: 700px;
+  perspective-origin: 50% 42%;
+  overflow: hidden;
+  --edge: linear-gradient(90deg,
+    transparent 0, transparent var(--curtain),
+    rgba(0, 0, 0, 0.05) var(--curtain), #000 calc(var(--curtain) + 110px),
+    #000 calc(100% - var(--curtain) - 110px), rgba(0, 0, 0, 0.05) calc(100% - var(--curtain)),
+    transparent calc(100% - var(--curtain)), transparent 100%);
+  -webkit-mask-image: var(--edge);
+  mask-image: var(--edge);
+}
+
+/* Кулиса (2): мягкое затемнение по краям поверх фона, карточки не темнит */
+.veil {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 180px;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+}
+.veil.l {
+  left: calc(var(--curtain) - 70px);
+  background: linear-gradient(90deg, transparent 0, rgba(24, 24, 24, 0.2) 45%, rgba(24, 24, 24, 0.08) 70%, transparent 100%);
+}
+.veil.r {
+  right: calc(var(--curtain) - 70px);
+  background: linear-gradient(270deg, transparent 0, rgba(24, 24, 24, 0.2) 45%, rgba(24, 24, 24, 0.08) 70%, transparent 100%);
+}
+
+.cyl-card {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 250px;
+  height: 350px;
+  margin: -175px 0 0 -125px;
+  border-radius: 26px;
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, #333 0%, var(--color-card) 70%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 34px -6px color-mix(in srgb, var(--pc) 45%, transparent),
+    0 18px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  backface-visibility: hidden;
+  transform: translate3d(var(--x, 0), 0, var(--z, 0)) rotateY(var(--ry, 0));
+  z-index: var(--zi, 1);
+}
+.cyl-card.on {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--pc) 45%, transparent),
+    0 0 46px -4px color-mix(in srgb, var(--pc) 60%, transparent),
+    0 18px 40px rgba(0, 0, 0, 0.35);
+}
+.cyl-card img {
+  position: absolute;
+  left: 20%;
+  top: 16%;
+  width: 60%;
+  height: 56%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  user-select: none;
+}
+.cyl-card span {
+  position: relative;
+  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pc);
+}
+
+@media (max-width: 560px) {
+  .showcase-stage { height: clamp(400px, 62vh, 520px); }
+  .cyl-layer { --curtain: 0px; }
+  .veil { width: 36px; }
+  .cyl-card { top: 34%; width: 108px; height: 150px; margin: -75px 0 0 -54px; border-radius: 16px; }
+  .cyl-card span { font-size: 15px; margin-bottom: 10px; }
+}
