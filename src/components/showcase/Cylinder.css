@@ -13,6 +13,8 @@
   /* на мобильном кулисы (left/right: -70px) выходят за край — без горизонтальной прокрутки */
   overflow: hidden;
   --curtain: max(24px, calc(50% - 600px));
+  /* горизонтальный драг пальцем вращает цилиндр, вертикальный — прокручивает страницу */
+  touch-action: pan-y;
 }
 
 /* Кулиса (1): жёсткая маска обрезки краёв цилиндра */
@@ -30,6 +32,8 @@
   -webkit-mask-image: var(--edge);
   mask-image: var(--edge);
 }
+/* фокус клавиатуры (стрелки влево/вправо) — внутрь, иначе обрежет маска/overflow */
+.cyl:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
 
 /* Кулиса (2): мягкое затемнение по краям поверх фона, карточки не темнит */
 .veil {
@@ -71,7 +75,11 @@
   backface-visibility: hidden;
   transform: translate3d(var(--x, 0), 0, var(--z, 0)) rotateY(var(--ry, 0));
   z-index: var(--zi, 1);
+  cursor: pointer;
+  /* клик/клавиши — карточка плавно приезжает; скраб курсором/пальцем — короткий переход */
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s;
 }
+.cyl-layer.scrub .cyl-card { transition: transform 0.14s ease-out, box-shadow 0.4s; }
 .cyl-card.on {
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--pc) 45%, transparent),
