@@ -1,5 +1,6 @@
 import { StrictMode, type ComponentType } from 'react'
 import { createRoot } from 'react-dom/client'
+import { LanguageProvider } from '../i18n/LanguageContext'
 import '../index.css'
 
 type Module = { default?: ComponentType }
@@ -39,7 +40,13 @@ async function render() {
   root.render(
     <StrictMode>
       <div className="min-h-[220vh]">
-        {Component ? <Component /> : <p>Компонент "{name}" не найден</p>}
+        {Component ? (
+          <LanguageProvider>
+            <Component />
+          </LanguageProvider>
+        ) : (
+          <p>Компонент "{name}" не найден</p>
+        )}
       </div>
     </StrictMode>,
   )
