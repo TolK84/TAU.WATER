@@ -8,6 +8,7 @@ import {
   type MouseEvent,
   type PointerEvent,
 } from 'react'
+import { useLanguage, type Lang } from '../../i18n/LanguageContext'
 import { SHOWCASE_PRODUCTS, type ShowcaseProduct } from './showcase-products'
 import './Cylinder.css'
 
@@ -25,7 +26,16 @@ type Props = {
   onSelect?: (index: number) => void
 }
 
+// aria-label карусели (задача 42): RU — исходный текст; KZ/EN — машинный перевод, черновой до вычитки носителем.
+// aria-label карточек — название товара (name), не переводится.
+const LISTBOX_LABEL: Record<Lang, string> = {
+  ru: 'Выбор товара',
+  kz: 'Тауарды таңдау',
+  en: 'Product selection',
+}
+
 export default function Cylinder({ products = SHOWCASE_PRODUCTS, selected = 0, onSelect }: Props) {
+  const { lang } = useLanguage()
   const ref = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
   // pos — положение цилиндра в карточках (дробное): какая карточка кольца сейчас в центре
@@ -152,7 +162,7 @@ export default function Cylinder({ products = SHOWCASE_PRODUCTS, selected = 0, o
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
     >
-      <div ref={ref} className="cyl" role="listbox" aria-label="Выбор товара" tabIndex={0} onKeyDown={onKeyDown}>
+      <div ref={ref} className="cyl" role="listbox" aria-label={LISTBOX_LABEL[lang]} tabIndex={0} onKeyDown={onKeyDown}>
         {Array.from({ length: m }, (_, v) => {
           const p = products[v % n]
           const d = off(v, pos) // смещение от центра в карточках

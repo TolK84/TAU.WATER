@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLanguage } from '../../i18n/LanguageContext'
 import { SHOWCASE_PRODUCTS, type ShowcaseProduct } from './showcase-products'
 import './Stage.css'
 
@@ -6,14 +7,6 @@ import './Stage.css'
 // смена — 3D-разворот через WAAPI. Порт design/showcase/index.html:215-245.
 // Очередь быстрых выборов (busy/pending) — в Showcase.tsx; Stage сообщает об окончании
 // перехода через onTransitionEnd.
-
-// Альтернативный текст сцен — design/showcase/index.html:154-157
-const ALT: Record<string, string> = {
-  lim: 'Девушка смеётся и протягивает в камеру бутылку TAU-Лимонад',
-  mo: 'Девушка протягивает в камеру зелёную бутылку TAU-МО, парень показывает на неё',
-  bur: 'Парень подмигивает, держит бутылку TAU-Буратино и показывает палец вверх',
-  water: 'Трое друзей с водой TAU: девушка протягивает бутылку 0,33 л, парень поднимает бутылку 1 л',
-}
 
 const OUT_MS = 480
 const IN_MS = 620
@@ -43,6 +36,7 @@ const play = (el: Element, frames: Keyframe[], opts: KeyframeAnimationOptions) =
 }
 
 export default function Stage({ selectedId, dir = 1, reducedMotion = false, onTransitionEnd }: Props) {
+  const { lang } = useLanguage()
   const initial = byId(selectedId)
   const [layers, setLayers] = useState<Layer[]>(() => [{ key: 0, product: initial }])
   const shown = useRef(initial.id) // товар, к которому идёт (или пришла) сцена
@@ -130,7 +124,7 @@ export default function Stage({ selectedId, dir = 1, reducedMotion = false, onTr
           }}
         >
           <img className="sh" src={product.sceneSrc} alt="" aria-hidden="true" />
-          <img className="main" src={product.sceneSrc} alt={ALT[product.id] ?? product.name} decoding="async" />
+          <img className="main" src={product.sceneSrc} alt={product.alt[lang]} decoding="async" />
         </div>
       ))}
     </div>
