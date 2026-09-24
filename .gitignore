@@ -44,3 +44,4 @@ tools/plan.mjs
 jira.config.json
 agents.config.json
 PLAN_TEMPLATE.md
+TASKS.review.md
