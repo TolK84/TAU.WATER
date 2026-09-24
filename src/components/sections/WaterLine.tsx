@@ -1,6 +1,7 @@
 import SectionLabel from '../ui/SectionLabel'
 import SectionHeading from '../ui/SectionHeading'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { publicUrl } from '../../lib/publicUrl'
 import { waterLineText } from './WaterLine.i18n'
 import './WaterLine.css'
 
@@ -26,7 +27,7 @@ export default function WaterLine() {
         <div className="water-line__body">
           <img
             className="water-line__img"
-            src="/packshots/water.webp"
+            src={publicUrl('packshots/water.webp')}
             alt={t.alt}
             width={2045}
             height={1429}

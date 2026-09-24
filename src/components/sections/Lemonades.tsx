@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import SectionLabel from '../ui/SectionLabel'
 import SectionHeading from '../ui/SectionHeading'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { publicUrl } from '../../lib/publicUrl'
 import { LEMONADES_I18N } from './Lemonades.i18n'
 import './Lemonades.css'
 
@@ -11,7 +12,7 @@ import './Lemonades.css'
 const LEMONADES = [
   {
     id: 'limonad',
-    src: '/packshots/limonad.webp',
+    src: publicUrl('packshots/limonad.webp'),
     width: 1068,
     height: 1605,
     name: 'Лимонад',
@@ -19,7 +20,7 @@ const LEMONADES = [
   },
   {
     id: 'mo',
-    src: '/packshots/mo.webp',
+    src: publicUrl('packshots/mo.webp'),
     width: 1062,
     height: 1682,
     name: 'МО/Мохито',
@@ -27,7 +28,7 @@ const LEMONADES = [
   },
   {
     id: 'buratino',
-    src: '/packshots/buratino.webp',
+    src: publicUrl('packshots/buratino.webp'),
     width: 1025,
     height: 1560,
     name: 'Буратино',

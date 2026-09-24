@@ -32,6 +32,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_BASE: /TAU.WATER/
 
       - name: Configure Pages
         uses: actions/configure-pages@v6

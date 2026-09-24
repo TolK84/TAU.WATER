@@ -1,9 +1,11 @@
 // Секция партнёров (задача 39): карта с метками, список дистрибьюторов по городам, логотипы.
 // Данные — src/data/partners.ts, файлы — public/partners/ (задача 38); стиль — DESIGN.md «Задача 39».
 // Язык (задача 43): тексты секции — Partners.i18n.ts, город/компания/адрес — готовые {ru,kz,en} из partners.ts.
+import type { CSSProperties } from 'react'
 import SectionLabel from '../ui/SectionLabel'
 import { distributors, type Distributor } from '../../data/partners'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { publicUrl } from '../../lib/publicUrl'
 import { partnersText } from './Partners.i18n'
 
 // Токена --color-line в src/index.css нет — fallback со значением из DESIGN.md «Направление».
@@ -24,13 +26,16 @@ const PINS = [...distributors].sort((a, b) => PIN_RADIUS[a.pin.size] - PIN_RADIU
 // Карта — линии map-lines.webp (прозрачный фон) как CSS-маска, цвет линий — фон --color-lime.
 // Пропорция 1782/1060 — размер исходника map.webp/map-lines.webp: метки в % остаются на городах.
 // -webkit-mask-* сборка добавляет сама (проверено по dist/assets/*.css).
+// URL маски — CSS-переменная --map-url (inline-style только ради переменной): статический url() в классе
+// не учитывает base сборки (vite.config.ts, VITE_BASE).
 const MAP_MASK =
-  'bg-lime [mask-image:url(/partners/map-lines.webp)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]'
+  'bg-lime [mask-image:var(--map-url)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]'
+const MAP_STYLE = { '--map-url': `url(${publicUrl('partners/map-lines.webp')})` } as CSSProperties
 
 // 16 логотипов: logo-01.png, logo-02..16.webp (задача 38).
 const LOGOS = Array.from({ length: 16 }, (_, i) => {
   const n = String(i + 1).padStart(2, '0')
-  return `/partners/logo-${n}.${i === 0 ? 'png' : 'webp'}`
+  return publicUrl(`partners/logo-${n}.${i === 0 ? 'png' : 'webp'}`)
 })
 
 // Группировка по городу с сохранением порядка из data-файла; ключ — RU-название (стабилен для всех языков),
@@ -52,7 +57,7 @@ export default function Partners() {
         <SectionLabel text={t.label} />
 
         <div className="relative aspect-[1782/1060] w-full">
-          <div role="img" aria-label={t.mapAlt} data-map="lines" className={`absolute inset-0 ${MAP_MASK}`} />
+          <div role="img" aria-label={t.mapAlt} data-map="lines" className={`absolute inset-0 ${MAP_MASK}`} style={MAP_STYLE} />
           {/* Метки — SVG-круги с процентными cx/cy поверх карты: позиция из данных без inline-style. */}
           <svg className="pointer-events-none absolute inset-0 size-full overflow-visible" aria-hidden="true">
             {PINS.map((d) => (

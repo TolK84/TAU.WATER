@@ -1,8 +1,9 @@
 import type { Lang } from '../../i18n/LanguageContext'
+import { publicUrl } from '../../lib/publicUrl'
 
 // Товары витрины (задача 34). Состав, порядок, цвета и тексты — design/showcase/index.html:154-158;
 // meta Буратино исправлен с копипаст-ошибки эталона на «Буратино · 1,5 л» (карточка 34, Техника).
-// Пути — литеральные, сверены с файлами задач 32 (public/packshots) и 33 (public/showcase).
+// Пути — литеральные (через publicUrl — base сборки), сверены с файлами задач 32 (public/packshots) и 33 (public/showcase).
 // Переводы (задача 42): RU — исходный текст без изменений; KZ/EN — машинный перевод, черновой до вычитки носителем.
 // name — название товара, не переводится ни на одном языке (одно значение). В meta не переводятся названия
 // (Лимонад, Мохито, Буратино); объёмы: RU/KZ — «0,5 л», EN — «0.5 L».
@@ -33,8 +34,8 @@ export const SHOWCASE_PRODUCTS: ShowcaseProduct[] = [
       en: 'A girl laughs and holds out a bottle of TAU-Лимонад to the camera',
     },
     colorVar: 'var(--color-product-limonad)',
-    bottleSrc: '/packshots/limonad.webp',
-    sceneSrc: '/showcase/scene-limonad.webp',
+    bottleSrc: publicUrl('packshots/limonad.webp'),
+    sceneSrc: publicUrl('showcase/scene-limonad.webp'),
   },
   {
     id: 'mo',
@@ -50,8 +51,8 @@ export const SHOWCASE_PRODUCTS: ShowcaseProduct[] = [
       en: 'A girl holds out a green bottle of TAU-МО to the camera, a guy points at it',
     },
     colorVar: 'var(--color-product-mo)',
-    bottleSrc: '/packshots/mo.webp',
-    sceneSrc: '/showcase/scene-mo.webp',
+    bottleSrc: publicUrl('packshots/mo.webp'),
+    sceneSrc: publicUrl('showcase/scene-mo.webp'),
   },
   {
     id: 'bur',
@@ -67,8 +68,8 @@ export const SHOWCASE_PRODUCTS: ShowcaseProduct[] = [
       en: 'A guy winks, holds a bottle of TAU-Буратино and gives a thumbs up',
     },
     colorVar: 'var(--color-product-buratino)',
-    bottleSrc: '/packshots/buratino.webp',
-    sceneSrc: '/showcase/scene-bur.webp',
+    bottleSrc: publicUrl('packshots/buratino.webp'),
+    sceneSrc: publicUrl('showcase/scene-bur.webp'),
   },
   {
     id: 'water',
@@ -84,7 +85,7 @@ export const SHOWCASE_PRODUCTS: ShowcaseProduct[] = [
       en: 'Three friends with TAU water: a girl holds out a 0.33 L bottle, a guy raises a 1 L bottle',
     },
     colorVar: 'var(--color-product-water)',
-    bottleSrc: '/packshots/water.webp',
-    sceneSrc: '/showcase/scene-water.webp',
+    bottleSrc: publicUrl('packshots/water.webp'),
+    sceneSrc: publicUrl('showcase/scene-water.webp'),
   },
 ]
