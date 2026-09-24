@@ -10,7 +10,7 @@ import './Hero.css'
 export default function Hero() {
   const t = HERO_I18N[useLanguage().lang]
   return (
-    <section id="hero" className="hero">
+    <section id="hero" className="hero pt-[104px]! lg:pt-[112px]!">
       <div className="hero__wrap">
         <p className="hero__meta">{t.meta}</p>
         <h1 className="hero__title">{t.title}</h1>
