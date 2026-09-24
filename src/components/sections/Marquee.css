@@ -1,0 +1,44 @@
+/* Бегущая строка (задача 10). Геометрия и тайминг — из прототипа
+   design/figma-make/src/index.css:35-44 и App.tsx:216-227, цвета и шрифт — токены src/index.css. */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee {
+  overflow: hidden;
+  padding: 16px 0;
+  background: var(--color-section);
+  /* --color-line пока нет в src/index.css: fallback — значение line из «Направления» DESIGN.md */
+  border-top: 1px solid var(--color-line, rgb(255 255 255 / 0.14));
+  border-bottom: 1px solid var(--color-line, rgb(255 255 255 / 0.14));
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 32px;
+  /* хвостовой отступ = gap: ширина ленты ровно 2 периода, -50% замыкает шов без скачка */
+  padding-right: 32px;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee__item,
+.marquee__sep {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee__item {
+  color: var(--color-fg);
+  opacity: 0.3;
+}
+
+.marquee__sep {
+  color: var(--color-lime);
+}
