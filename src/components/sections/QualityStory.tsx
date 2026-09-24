@@ -5,10 +5,14 @@
 import WaterSource from '../graphics/WaterSource'
 import SectionLabel from '../ui/SectionLabel'
 import SectionHeading from '../ui/SectionHeading'
+import { useLanguage } from '../../i18n/LanguageContext'
+import { QUALITY_STORY_I18N } from './QualityStory.i18n'
 
-const POINTS = ['Собственная\nскважина', 'Обратный\nосмос', 'Лаборатория\nконтроля']
-
+// Тексты по языку — QualityStory.i18n.ts (задача 45).
 export default function QualityStory() {
+  const { lang } = useLanguage()
+  const t = QUALITY_STORY_I18N[lang]
+
   return (
     <section id="quality" className="grid grid-cols-1 bg-bg lg:min-h-[580px] lg:grid-cols-2">
       <div className="relative h-[280px] overflow-hidden lg:h-auto">
@@ -18,24 +22,18 @@ export default function QualityStory() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_55%,#363636_100%)]" />
         <div className="absolute bottom-6 left-4 border border-[var(--color-line,rgba(255,255,255,.14))] bg-bg/75 px-5 py-3 lg:bottom-10 lg:left-10">
           <span className="font-body text-[11px] tracking-[0.12em] text-fg/35 uppercase">
-            Казахстан · Собственная скважина
+            {t.badge}
           </span>
         </div>
       </div>
 
       <div className="flex flex-col justify-center px-4 py-12 lg:px-[72px] lg:py-20">
-        <SectionLabel text="О производстве" className="mb-7" />
-        <SectionHeading text={'Контроль\nна каждом\nэтапе'} className="mb-7 lg:whitespace-pre-line" />
-        <p className="mb-5 font-body text-[14px] leading-[1.8] font-light text-fg/45">
-          Мы добываем воду из собственной артезианской скважины. Очистка методом обратного осмоса на оборудовании
-          GW-R-88 производства CIT (США) гарантирует стабильное качество каждой партии.
-        </p>
-        <p className="mb-10 font-body text-[14px] leading-[1.8] font-light text-fg/45">
-          Современная производственная лаборатория ведёт контроль на каждом этапе — от скважины до упаковки. Состав на
-          этикетке соответствует тому, что внутри.
-        </p>
+        <SectionLabel text={t.label} className="mb-7" />
+        <SectionHeading text={t.heading} className="mb-7 lg:whitespace-pre-line" />
+        <p className="mb-5 font-body text-[14px] leading-[1.8] font-light text-fg/45">{t.p1}</p>
+        <p className="mb-10 font-body text-[14px] leading-[1.8] font-light text-fg/45">{t.p2}</p>
         <ul className="flex flex-col gap-4 lg:flex-row lg:gap-0">
-          {POINTS.map((text, i) => (
+          {t.points.map((text, i) => (
             <li
               key={text}
               className={`flex items-center gap-3 lg:flex-1 lg:flex-col lg:items-start lg:gap-2.5 ${
