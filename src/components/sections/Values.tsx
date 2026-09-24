@@ -1,12 +1,8 @@
+import { useLanguage } from '../../i18n/LanguageContext'
+import { VALUES_I18N } from './Values.i18n'
+
 // Секция ценностей (задача 15). Композиция и порядок — design/figma-make/src/App.tsx:483-499,
-// тексты — карточка 15 (описания «Полезно»/«Натурально» заменены), стиль — DESIGN.md «Задача 15».
-const VALUES = [
-  { title: 'Вкусно', text: 'Рецептуры разработаны без лишних компромиссов' },
-  { title: 'Полезно', text: 'Контроль состава на каждом этапе производства' },
-  { title: 'С любовью', text: 'Производство в Казахстане, своими руками' },
-  { title: 'Натурально', text: 'Полный состав продукта - на этикетке каждой упаковки' },
-  { title: 'Уверенно', text: 'Качество гарантировано лабораторным контролем' },
-]
+// тексты — Values.i18n.ts (RU — карточка 15, KZ/EN — задача 46), стиль — DESIGN.md «Задача 15».
 
 // Токена --color-line в src/index.css нет — fallback со значением из DESIGN.md «Направление».
 const LINE = 'border-[color:var(--color-line,rgba(255,255,255,.14))]'
@@ -22,11 +18,12 @@ const CELL = [
 ].join(' ')
 
 export default function Values() {
+  const { lang } = useLanguage()
   return (
     <section id="values" className={`border-t ${LINE}`}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-        {VALUES.map(({ title, text }) => (
-          <div key={title} className={CELL}>
+        {VALUES_I18N[lang].map(({ title, text }, i) => (
+          <div key={i} className={CELL}>
             <div className="mb-4 size-2 bg-lime" />
             <h3 className="mb-3 font-display text-[26px] font-bold uppercase tracking-[0.02em] text-fg">
               {title}

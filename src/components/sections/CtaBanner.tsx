@@ -1,7 +1,11 @@
+import { useLanguage } from '../../i18n/LanguageContext'
+import { CTA_I18N } from './CtaBanner.i18n'
+
 const btnBase =
   'inline-flex items-center justify-center gap-2 font-body text-[13px] uppercase cursor-pointer transition-colors duration-200 px-12 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bg'
 
 export default function CtaBanner() {
+  const t = CTA_I18N[useLanguage().lang]
   return (
     <section
       id="cta"
@@ -9,12 +13,12 @@ export default function CtaBanner() {
     >
       <div>
         <h2 className="font-display text-[clamp(40px,7vw,88px)] font-bold leading-[0.88] uppercase text-bg">
-          БУДЬ УВЕРЕН.
+          {t.titleTop}
           <br />
-          ЗАКАЖИ TAU.
+          {t.titleBottom}
         </h2>
         <p className="mt-[18px] font-body text-[15px] font-normal text-bg/50">
-          Доставка по Казахстану · Оптовые и розничные поставки
+          {t.lead}
         </p>
       </div>
       <div className="flex shrink-0 flex-col gap-3">
@@ -22,13 +26,13 @@ export default function CtaBanner() {
           type="button"
           className={`${btnBase} border-none bg-bg py-[18px] font-semibold tracking-[0.08em] text-lime hover:bg-section`}
         >
-          Оформить заказ →
+          {t.order}
         </button>
         <button
           type="button"
           className={`${btnBase} border border-bg/25 bg-transparent py-[17px] font-medium tracking-[0.06em] text-bg hover:border-bg/60`}
         >
-          Написать нам
+          {t.write}
         </button>
       </div>
     </section>
