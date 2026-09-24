@@ -14,7 +14,7 @@ export default function QualityStory() {
   const t = QUALITY_STORY_I18N[lang]
 
   return (
-    <section id="quality" className="grid grid-cols-1 bg-bg lg:min-h-[580px] lg:grid-cols-2">
+    <section id="quality" className="grid scroll-mt-[72px] grid-cols-1 bg-bg lg:min-h-[580px] lg:scroll-mt-[80px] lg:grid-cols-2">
       <div className="relative h-[280px] overflow-hidden lg:h-auto">
         <div className="absolute inset-0">
           <WaterSource />

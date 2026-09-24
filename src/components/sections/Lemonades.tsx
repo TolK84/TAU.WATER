@@ -40,7 +40,7 @@ export default function Lemonades() {
   const t = LEMONADES_I18N[lang]
 
   return (
-    <section id="lemonades" className="lemonades">
+    <section id="lemonades" className="lemonades scroll-mt-[72px] lg:scroll-mt-[80px]">
       <div className="lemonades__wrap">
         <header className="lemonades__head">
           <SectionLabel text={t.label} className="lemonades__label" />

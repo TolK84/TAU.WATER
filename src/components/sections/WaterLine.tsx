@@ -11,7 +11,7 @@ export default function WaterLine() {
   const t = waterLineText[lang]
 
   return (
-    <section id="water" className="water-line">
+    <section id="water" className="water-line scroll-mt-[72px] lg:scroll-mt-[80px]">
       <div className="water-line__wrap">
         <header className="water-line__head">
           <div>

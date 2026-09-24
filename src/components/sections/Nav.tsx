@@ -5,6 +5,24 @@ import { useLanguage } from '../../i18n/LanguageContext'
 import { NAV_I18N } from './Nav.i18n'
 import './Nav.css'
 
+// Правка 2026-09-24 (DESIGN.md «Рабочие ссылки и кнопки»): плавная прокрутка к секции без смены URL/hash.
+// Отступ под фиксированную навигацию — scroll-margin-top цели; у цели без него (#partners) — высота .nav + 16px.
+// prefers-reduced-motion: reduce — прыжок мгновенно.
+export function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const navH = document.querySelector<HTMLElement>('.nav')?.offsetHeight ?? 0
+  const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || navH + 16
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({
+    top: el.getBoundingClientRect().top + window.scrollY - offset,
+    behavior: reduce ? 'instant' : 'smooth',
+  })
+}
+
+// Цели пунктов меню по порядку NAV_I18N.items: Вода, Лимонады, О компании, Контакты.
+const ITEM_TARGETS = ['water', 'lemonades', 'quality', 'partners']
+
 export default function Nav() {
   const t = NAV_I18N[useLanguage().lang]
   const [scrolled, setScrolled] = useState(false)
@@ -16,6 +34,11 @@ export default function Nav() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const go = (id: string) => {
+    setOpen(false)
+    scrollToSection(id)
+  }
 
   const cls = ['nav', scrolled && 'nav--scrolled', open && 'nav--open'].filter(Boolean).join(' ')
 
@@ -40,13 +63,15 @@ export default function Nav() {
       <div id="nav-panel" className="nav__panel">
         <div className="nav__links">
           {t.items.map((item, i) => (
-            <button key={i} type="button" className="nav-link">
+            <button key={i} type="button" className="nav-link" onClick={() => go(ITEM_TARGETS[i])}>
               {item}
             </button>
           ))}
         </div>
         <LanguageSwitcher />
-        <Button variant="primary">{t.order}</Button>
+        <Button variant="primary" onClick={() => go('cta')}>
+          {t.order}
+        </Button>
       </div>
     </nav>
   )
