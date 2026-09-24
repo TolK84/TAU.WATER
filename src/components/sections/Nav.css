@@ -1,0 +1,131 @@
+/* Навигация (задача 8). Композиция и скролл-состояние — design/figma-make/src/App.tsx:92-146,
+   .nav-link — design/figma-make/src/index.css:98-106; цвета и шрифты — токены src/index.css. */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav--scrolled {
+  background: rgb(54 54 54 / 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.nav__logo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.14em;
+  color: var(--color-fg);
+}
+.nav__logo-tau { color: var(--color-lime); }
+.nav__logo-waters {
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+/* Десктоп: панель не образует собственного блока — ссылки и кнопка
+   становятся зонами полосы навигации (space-between). */
+.nav__panel { display: contents; }
+
+.nav__links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 238, 234, 0.6);
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--color-lime); }
+
+.nav-link:focus-visible,
+.nav__burger:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
+
+.nav__burger { display: none; }
+
+/* Мобильный вариант: переключение по Tailwind lg (1024px), см. src/lib/viewport.ts. */
+@media (max-width: 1023.98px) {
+  .nav {
+    height: 56px;
+    padding: 0 16px;
+  }
+  .nav--open {
+    background: var(--color-bg);
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+  }
+
+  .nav__burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 0 9px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .nav__burger span {
+    display: block;
+    height: 2px;
+    background: var(--color-fg);
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav--open .nav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav--open .nav__burger span:nth-child(2) { opacity: 0; }
+  .nav--open .nav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav__panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px 16px 32px;
+    background: var(--color-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .nav--open .nav__panel { display: flex; }
+
+  .nav__links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
