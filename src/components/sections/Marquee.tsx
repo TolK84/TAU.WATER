@@ -1,18 +1,12 @@
+import { useLanguage } from '../../i18n/LanguageContext'
+import { MARQUEE_I18N } from './Marquee.i18n'
 import './Marquee.css'
 
-const items = [
-  'Артезианская скважина',
-  'Обратный осмос',
-  'Без ГМО',
-  'Лаборатория контроля',
-  'Будь уверен!',
-  'Казахстан',
-]
-
-// Массив дублируется, чтобы translateX(-50%) замыкал ленту без разрыва.
-const track = [...items, ...items].flatMap((item) => [item, '·'])
-
 export default function Marquee() {
+  const items = MARQUEE_I18N[useLanguage().lang]
+  // Массив дублируется, чтобы translateX(-50%) замыкал ленту без разрыва.
+  const track = [...items, ...items].flatMap((item) => [item, '·'])
+
   return (
     <div className="marquee">
       <div className="marquee-track">

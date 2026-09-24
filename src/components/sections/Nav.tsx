@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import Button from '../ui/Button'
 import LanguageSwitcher from '../ui/LanguageSwitcher'
+import { useLanguage } from '../../i18n/LanguageContext'
+import { NAV_I18N } from './Nav.i18n'
 import './Nav.css'
 
-const ITEMS = ['Вода', 'Лимонады', 'О компании', 'Контакты']
-
 export default function Nav() {
+  const t = NAV_I18N[useLanguage().lang]
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -27,7 +28,7 @@ export default function Nav() {
       <button
         type="button"
         className="nav__burger"
-        aria-label="Меню"
+        aria-label={t.menu}
         aria-expanded={open}
         aria-controls="nav-panel"
         onClick={() => setOpen((v) => !v)}
@@ -38,14 +39,14 @@ export default function Nav() {
       </button>
       <div id="nav-panel" className="nav__panel">
         <div className="nav__links">
-          {ITEMS.map((item) => (
-            <button key={item} type="button" className="nav-link">
+          {t.items.map((item, i) => (
+            <button key={i} type="button" className="nav-link">
               {item}
             </button>
           ))}
         </div>
         <LanguageSwitcher />
-        <Button variant="primary">Заказать</Button>
+        <Button variant="primary">{t.order}</Button>
       </div>
     </nav>
   )
