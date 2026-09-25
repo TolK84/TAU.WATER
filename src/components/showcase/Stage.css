@@ -63,49 +63,50 @@
   mask-image: none;
 }
 
-/* Мобильная ширина (задача 48): верх видимого фото МО, Воды и Буратино — на уровне Лимонада,
-   размер фото не меняется. Видимый верх кадра = max(34%, 100% − 66vw/ratio), K = 66/ratio
-   (ratio — natural-пропорции файлов: МО 1934×1449, вода 2016×1487, Буратино 1918×1789,
-   Лимонад 1255×1764 → K 92.83vw). Пара top/bottom сдвигает сцену, сохраняя её высоту;
-   transform на .scene не трогаем — им управляет WAAPI-разворот (Stage.tsx). */
+/* Мобильная ширина (задача 50): одинаковый размер лица и единая линия лиц у всех 4 товаров.
+   Замер лиц (лоб — граница кожи и волос по средней линии, подбородок — нижняя точка контура)
+   в px файла: r = средняя высота лица / высота кадра, f = средний центр лица / высота кадра —
+   Лимонад r .3288 f .2353; Буратино r .2907 f .2823; МО (2 чел.) r .2560 f .3119;
+   Вода (3 чел.) r .2051 f .4195. Масштаб: Вода во всю ширину, H_water = 100vw/1.3557 = 73.76vw,
+   H_i = H_water·r_water/r_i. Линия лиц — 0.34H + 50px от верха сцены (нижняя треть ряда карточек
+   цилиндра, Cylinder.css: top 34%, высота 150px); K_i = H_i·(1 − f_i) — центр лица от низа кадра;
+   сдвиг вверх = max(0px, 66% − K_i − 50px), низ кадра не опускается ниже сцены.
+   Пара top/bottom сдвигает сцену, сохраняя её высоту; transform на .scene не трогаем —
+   им управляет WAAPI-разворот (Stage.tsx). */
 @media (max-width: 560px) {
-  .scene[data-src*="scene-mo"] {
-    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 49.44vw));
-    bottom: calc(max(34%, 100% - 49.44vw) - max(34%, 100% - 92.83vw));
+  .showcase-stage {
+    --shift-limonad: max(0px, 66% - 35.19vw - 50px);
+    --shift-bur: max(0px, 66% - 37.36vw - 50px);
+    --shift-mo: max(0px, 66% - 40.66vw - 50px);
+    --shift-water: max(0px, 66% - 42.82vw - 50px);
   }
 
-  .scene[data-src*="scene-water"] {
-    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 48.67vw));
-    bottom: calc(max(34%, 100% - 48.67vw) - max(34%, 100% - 92.83vw));
-  }
+  .scene[data-src*="scene-limonad"] { top: calc(-1 * var(--shift-limonad)); bottom: var(--shift-limonad); }
+  .scene[data-src*="scene-bur"] { top: calc(-1 * var(--shift-bur)); bottom: var(--shift-bur); }
+  .scene[data-src*="scene-mo"] { top: calc(-1 * var(--shift-mo)); bottom: var(--shift-mo); }
+  .scene[data-src*="scene-water"] { top: calc(-1 * var(--shift-water)); bottom: var(--shift-water); }
 
-  .scene[data-src*="scene-bur"] {
-    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 61.57vw));
-    bottom: calc(max(34%, 100% - 61.57vw) - max(34%, 100% - 92.83vw));
-  }
+  .scene[data-src*="scene-limonad"] img.main, .scene[data-src*="scene-limonad"] img.sh { height: 46.01vw; }
+  .scene[data-src*="scene-bur"] img.main, .scene[data-src*="scene-bur"] img.sh { height: 52.05vw; }
+  .scene[data-src*="scene-mo"] img.main, .scene[data-src*="scene-mo"] img.sh { height: 59.09vw; }
+  .scene[data-src*="scene-water"] img.main, .scene[data-src*="scene-water"] img.sh { height: 73.76vw; }
 
-  /* Подсветка едет вместе с поднятым фото (задача 49): тот же сдвиг, что у .scene выше,
-     прибавленный к базовому top:18% (сдвиг отрицательный — вверх). Лимонад без правила. */
-  .people::before {
-    transition: background 0.6s, top 0.6s;
-  }
+  .scene img.main { max-width: 100%; }
 
-  .people:has(> .scene[data-src*="scene-mo"])::before {
-    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 49.44vw)));
-  }
-
-  .people:has(> .scene[data-src*="scene-water"])::before {
-    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 48.67vw)));
-  }
-
-  .people:has(> .scene[data-src*="scene-bur"])::before {
-    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 61.57vw)));
-  }
-
-  /* Тень — по рамке фото: то же ограничение ширины и вписывание, что у .main */
+  /* Тень — по рамке фото: та же высота и вписывание, что у .main */
   .scene img.sh {
-    max-width: 66%;
+    max-width: none;
     object-fit: contain;
     object-position: bottom center;
   }
+
+  /* Подсветка — тот же нижний якорь, что у сцены товара, высота H_i × 1.25 (запас на blur) */
+  .people::before {
+    transition: background 0.6s, bottom 0.6s, height 0.6s;
+  }
+
+  .people:has(> .scene[data-src*="scene-limonad"])::before { top: auto; bottom: var(--shift-limonad); height: 57.51vw; }
+  .people:has(> .scene[data-src*="scene-bur"])::before { top: auto; bottom: var(--shift-bur); height: 65.06vw; }
+  .people:has(> .scene[data-src*="scene-mo"])::before { top: auto; bottom: var(--shift-mo); height: 73.86vw; }
+  .people:has(> .scene[data-src*="scene-water"])::before { top: auto; bottom: var(--shift-water); height: 92.2vw; }
 }
