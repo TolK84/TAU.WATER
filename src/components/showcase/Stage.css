@@ -84,6 +84,24 @@
     bottom: calc(max(34%, 100% - 61.57vw) - max(34%, 100% - 92.83vw));
   }
 
+  /* Подсветка едет вместе с поднятым фото (задача 49): тот же сдвиг, что у .scene выше,
+     прибавленный к базовому top:18% (сдвиг отрицательный — вверх). Лимонад без правила. */
+  .people::before {
+    transition: background 0.6s, top 0.6s;
+  }
+
+  .people:has(> .scene[data-src*="scene-mo"])::before {
+    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 49.44vw)));
+  }
+
+  .people:has(> .scene[data-src*="scene-water"])::before {
+    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 48.67vw)));
+  }
+
+  .people:has(> .scene[data-src*="scene-bur"])::before {
+    top: calc(18% + (max(34%, 100% - 92.83vw) - max(34%, 100% - 61.57vw)));
+  }
+
   /* Тень — по рамке фото: то же ограничение ширины и вписывание, что у .main */
   .scene img.sh {
     max-width: 66%;
