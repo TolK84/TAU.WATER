@@ -77,7 +77,7 @@ export default function Cylinder({ products = SHOWCASE_PRODUCTS, selected = 0, o
   }
   const select = (i: number) => live.current.onSelect?.(((i % n) + n) % n)
 
-  // Вращение вслед за указателем; withSettle — выбор центрального товара после паузы (только мышь)
+  // Вращение вслед за указателем; withSettle — выбор центрального товара после паузы (мышь и палец)
   const follow = (clientX: number, withSettle: boolean) => {
     const pxPerCard = live.current.width < MOBILE ? 90 : 170
     setScrub(true)
@@ -90,13 +90,13 @@ export default function Cylinder({ products = SHOWCASE_PRODUCTS, selected = 0, o
   const followRef = useRef(follow)
   followRef.current = follow
 
-  // Касание: палец тянет цилиндр; по отпусканию ничего не выбирается
+  // Касание: палец тянет цилиндр; выбор — по паузе SETTLE_MS после последнего движения, отпускание таймер не сбрасывает
   useEffect(() => {
     const move = (e: globalThis.PointerEvent) => {
       const t = touch.current
       if (!t) return
       if (Math.abs(e.clientX - t.x) > TOUCH_SLOP) t.moved = true
-      if (t.moved) followRef.current(e.clientX, false)
+      if (t.moved) followRef.current(e.clientX, true)
     }
     const up = () => {
       const t = touch.current
