@@ -62,3 +62,32 @@
   -webkit-mask-image: none;
   mask-image: none;
 }
+
+/* Мобильная ширина (задача 48): верх видимого фото МО, Воды и Буратино — на уровне Лимонада,
+   размер фото не меняется. Видимый верх кадра = max(34%, 100% − 66vw/ratio), K = 66/ratio
+   (ratio — natural-пропорции файлов: МО 1934×1449, вода 2016×1487, Буратино 1918×1789,
+   Лимонад 1255×1764 → K 92.83vw). Пара top/bottom сдвигает сцену, сохраняя её высоту;
+   transform на .scene не трогаем — им управляет WAAPI-разворот (Stage.tsx). */
+@media (max-width: 560px) {
+  .scene[data-src*="scene-mo"] {
+    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 49.44vw));
+    bottom: calc(max(34%, 100% - 49.44vw) - max(34%, 100% - 92.83vw));
+  }
+
+  .scene[data-src*="scene-water"] {
+    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 48.67vw));
+    bottom: calc(max(34%, 100% - 48.67vw) - max(34%, 100% - 92.83vw));
+  }
+
+  .scene[data-src*="scene-bur"] {
+    top: calc(max(34%, 100% - 92.83vw) - max(34%, 100% - 61.57vw));
+    bottom: calc(max(34%, 100% - 61.57vw) - max(34%, 100% - 92.83vw));
+  }
+
+  /* Тень — по рамке фото: то же ограничение ширины и вписывание, что у .main */
+  .scene img.sh {
+    max-width: 66%;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+}
